@@ -1,0 +1,63 @@
+extends layout
+
+block content
+  h1= title
+  div(ng-controller="controllerStatus"
+     ng-init="erro=null;mostrar=false;mostrarAlertas=false")
+    p #{msg}
+    div(ng-show="mostrarAlertas",
+      style="width: 400px;background-color: black;color: white;box-shadow: 10px 10px 5px #888888;")
+      ul
+        li(ng-repeat="disp in dispAlerta")
+          p 
+            | Dispositivo: {{ disp.idDispositivo }}
+            | Status: {{ disp.statusText }}
+      br
+      input(type="button" value="FECHAR"
+        ng-click="mostrarAlertas=false") 
+      
+    div(ng-show="mostrar",style="width: 300px;background-color: yellow;box-shadow: 10px 10px 5px #888888;")
+      p
+        | Dispositivo: {{ dispsel.idDispositivo }}
+        br
+        | Último alarme: {{ dispsel.ultAlerta }}
+        br
+        | Status: {{ dispsel.statusText }}
+        br
+        | Última medição
+        ul
+          li
+            | Data/hora: {{ medicao.dataHora }}
+          li
+            | Valor: {{ medicao.valor }}
+        input(type="button" value="FECHAR"
+          ng-click="mostrar=false") 
+    div(ng-show="!erro")
+      ul
+        li(ng-repeat="disp in dispositivos")
+          p 
+            a(ng-click="getDispositivo(disp.idDispositivo)") 
+              {{ disp.idDispositivo }}  
+            | Status: 
+            span(style="color: black; background-color: gray",
+              ng-if="disp.status==0") {{ disp.status }} DESLIGADO
+            span(style="color: black; background-color: green",
+              ng-if="disp.status==1") {{ disp.status }} NORMAL
+            span(style="color: black; background-color: red",
+              ng-if="disp.status==2") {{ disp.status }} ALARME
+            span(style="color: black; background-color: yellow",
+              ng-if="disp.status==3") {{ disp.status }} ATENÇÃO
+            span(style="color: black; background-color: magenta",
+              ng-if="disp.status==4") {{ disp.status }} ATRASO
+            
+      br
+      | Consultar médias
+      | Dispositivo: 
+      input(type="text" placeholder="* dispositivo *" id="txtDisp") 
+      | Dias: 
+      input(type="text" placeholder="* Opcional: dias *" id="txtDias") 
+      input(type="button" value="Consultar"
+          ng-click="getMedia()") 
+      br
+      input(type="button" value="ALERTAS"
+          ng-click="getAlertas()") 

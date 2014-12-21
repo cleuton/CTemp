@@ -1,0 +1,12 @@
+{
+  "name": "ctemp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ctemp.js dispositivo1 senhadisp1 192.168.1.25" 
+  },
+  "dependencies": {
+    "johnny-five" : "*",
+    "request-json" : "*"  
+  }
+}
